@@ -1,0 +1,67 @@
+Gerekli Dosyalar:
+
+Site Logosu:
+1. favicon.ico - Tarayıcı sekmesi ikonu (zorunlu)
+2. favicon-16x16.png - Küçük favicon (opsiyonel)
+3. favicon-32x32.png - Büyük favicon (opsiyonel)
+4. apple-touch-icon.png - iOS cihaz ikonu (opsiyonel)
+
+Arka Plan Medya:
+1. background-video.mp4 - Arka plan videonuz (opsiyonel)
+2. background-image.jpg - Arka plan resminiz (opsiyonel)
+3. background-music.mp3 - Arka plan müziğiniz (opsiyonel)
+
+Bu dosyaları proje klasörüne ekleyin:
+
+Site Logosu:
+- favicon.ico dosyasını sitenizin logosuyla değiştirin (16x16, 32x32, 48x48 boyutlarında)
+- favicon-16x16.png dosyasını 16x16 boyutunda logonuzla değiştirin
+- favicon-32x32.png dosyasını 32x32 boyutunda logonuzla değiştirin
+- apple-touch-icon.png dosyasını 180x180 boyutunda logonuzla değiştirin
+
+Arka Plan Medya:
+- background-video.mp4 dosyasını istediğiniz videoyla değiştirin
+- background-image.jpg dosyasını istediğiniz resimle değiştirin
+- background-music.mp3 dosyasını istediğiniz müzikle değiştirin
+
+Müzik Kontrolü (Sağ Üst Köşe):
+
+- Yuvarlak müzik butonu: Müziği açıp kapatır
+- Ses açık: Mavi gradient buton
+- Ses kapalı: Gri buton
+- Müzik otomatik başlar (tarayıcı izin verirse)
+
+Otomatik Arka Plan Sistemi:
+
+1. Önce video arka plan denenir (background-video.mp4)
+2. Video yoksa resim arka plan gösterilir (background-image.jpg)
+3. Hiçbiri yoksa sadece overlay gösterilir
+
+Dosya Formatları:
+
+Logo:
+- favicon.ico: ICO formatında olmalı (16x16, 32x32, 48x48 boyutları)
+- favicon-16x16.png: PNG formatında, 16x16 piksel
+- favicon-32x32.png: PNG formatında, 32x32 piksel
+- apple-touch-icon.png: PNG formatında, 180x180 piksel
+- Logo net ve okunabilir olmalı
+
+Video:
+- MP4 formatında olmalı
+- Video döngü halinde oynatılacak
+- Yüksek kaliteli olması önerilir
+
+Resim:
+- JPG, PNG, WebP formatlarında olabilir
+- Yüksek çözünürlüklü olması önerilir
+- 1920x1080 veya daha büyük boyutlar
+
+Müzik:
+- MP3 veya OGG formatında olmalı
+- Müzik döngü halinde çalacak
+- Dosya boyutu çok büyük olmamalı
+
+Not: 
+- Site içinden hiçbir şey değiştirilemez
+- Sadece dosyaları değiştirerek içerik güncellenir
+- Müzik otomatik başlar, sadece açıp kapatabilirsiniz

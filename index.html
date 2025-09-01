@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ourlex - Portföy</title>
+    
+    <!-- Güvenlik Meta Tag'leri -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background Container -->
+    <div class="background-container">
+        <video id="bgVideo" autoplay muted loop>
+            <source src="background-video.mp4" type="video/mp4">
+        </video>
+        <div id="bgImage" class="background-image"></div>
+        <div class="background-overlay"></div>
+    </div>
+
+    <!-- Music Toggle Button -->
+    <div class="music-toggle">
+        <button id="musicToggleBtn" class="music-btn">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <h1 class="name">Ourlex</h1>
+            <p class="title">Freelancer & Developer</p>
+            <p class="description">
+                Plugin geliştirme ve grafik tasarım konusunda freelancer. 
+                Yaratıcı çözümler ve kaliteli hizmetler sunuyorum.
+            </p>
+        </section>
+
+        <!-- Social Media Links -->
+        <div class="social-links">
+            <a href="#" class="social-link discord">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+            </a>
+            <a href="#" class="social-link instagram">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <a href="#" class="social-link spotify">
+                <i class="fab fa-spotify"></i>
+                <span>Spotify</span>
+            </a>
+            <a href="#" class="social-link github">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+
+        <!-- About Section -->
+        <section class="about-section">
+            <h2>Hakkımda</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Plugin geliştirme ve grafik tasarım alanlarında bir freelancerım. 
+                        Hem teknik hem de yaratıcı becerilerimi birleştirerek, müşterilerime kapsamlı çözümler sunuyorum.
+                    </p>
+                    <p>
+                        Sunucular için pluginler geliştiriyor, kurulum ve sorun çözme hizmetleri veriyorum. 
+                        Aynı zamanda logo tasarımı ve grafik tasarım hizmetleri sunuyorum.
+                    </p>
+                </div>
+                <div class="skills">
+                    <h3>Yeteneklerim</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Minecraft Pluginleri</span>
+                        <span class="skill-tag">Kurulum & Ayarlama</span>
+                        <span class="skill-tag">Sorun Çözme</span>
+                        <span class="skill-tag">Logo Tasarımı</span>
+                        <span class="skill-tag">Pixel Art</span>
+                        <span class="skill-tag">Sosyal Medya Tasarımları</span>
+                        <span class="skill-tag">Grafik Tasarım</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <h2>İletişim</h2>
+            <p>Plugin geliştirme ve tasarım projeleriniz için benimle iletişime geçin</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>ourlex@email.com</span>
+                </div>
+                <a href="#" class="contact-item discord-contact">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="security.js"></script>
+</body>
+</html>
