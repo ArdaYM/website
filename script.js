@@ -48,6 +48,24 @@ document.addEventListener('keydown', function(e) {
         e.preventDefault();
         return false;
     }
+    
+    // Ctrl+Shift+K (Firefox Console)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 75) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Ctrl+Shift+E (Firefox Inspector)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 69) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Ctrl+Shift+Del (Clear data)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 46) {
+        e.preventDefault();
+        return false;
+    }
 });
 
 // Sağ tık menüsünü engelle
@@ -83,6 +101,54 @@ setInterval(function() {
     debugger;
 }, 100);
 
+// Kaynak kodlarını gizle
+(function() {
+    'use strict';
+    
+    // Tüm script etiketlerini gizle
+    const scripts = document.querySelectorAll('script');
+    scripts.forEach(script => {
+        script.style.display = 'none';
+        script.setAttribute('hidden', 'true');
+    });
+    
+    // CSS dosyalarını gizle
+    const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+    stylesheets.forEach(link => {
+        link.style.display = 'none';
+        link.setAttribute('hidden', 'true');
+    });
+    
+    // Kaynak görüntüleme engelle
+    const originalOpen = window.open;
+    window.open = function(url, name, specs) {
+        if (url && (url.includes('view-source:') || url.includes('chrome://') || url.includes('about:'))) {
+            return null;
+        }
+        return originalOpen.call(this, url, name, specs);
+    };
+    
+    // Console'da kaynak kodlarını gizle
+    const originalLog = console.log;
+    console.log = function() {
+        const args = Array.from(arguments);
+        if (args.some(arg => typeof arg === 'string' && arg.includes('script.js'))) {
+            return;
+        }
+        return originalLog.apply(console, arguments);
+    };
+    
+    // Network tab'ında dosyaları gizle
+    const originalFetch = window.fetch;
+    window.fetch = function() {
+        const url = arguments[0];
+        if (typeof url === 'string' && (url.includes('.js') || url.includes('.css'))) {
+            return Promise.reject(new Error('Access denied'));
+        }
+        return originalFetch.apply(this, arguments);
+    };
+})();
+
 // ===== GÜVENLİK ÖNLEMLERİ SONU =====
 
 // DOM Elements
@@ -90,6 +156,7 @@ const bgVideo = document.getElementById('bgVideo');
 const bgImage = document.getElementById('bgImage');
 const backgroundMusic = document.getElementById('backgroundMusic');
 const musicToggleBtn = document.getElementById('musicToggleBtn');
+const themeToggleBtn = document.getElementById('themeToggleBtn');
 
 // Music Toggle Function
 let isMusicPlaying = false;
@@ -111,21 +178,103 @@ musicToggleBtn.addEventListener('click', function() {
     }
 });
 
+// Theme Toggle Function
+let isDarkTheme = true;
 
+themeToggleBtn.addEventListener('click', function() {
+    const body = document.body;
+    const icon = this.querySelector('i');
+    const backgroundImage = document.getElementById('bgImage');
+    const backgroundContainer = document.querySelector('.background-container');
+    const backgroundOverlay = document.querySelector('.background-overlay');
+    
+    // Add transition class
+    body.classList.add('theme-transitioning');
+    
+    // Completely freeze all background animations and transforms
+    const backgroundElements = [backgroundImage, backgroundContainer, backgroundOverlay];
+    backgroundElements.forEach(element => {
+        if (element) {
+            element.style.transform = 'scale(1) translateZ(0)';
+            element.style.transition = 'opacity 0.8s ease';
+            element.style.animation = 'none';
+            element.style.willChange = 'opacity';
+        }
+    });
+    
+    if (isDarkTheme) {
+        // Switch to white theme
+        body.setAttribute('data-theme', 'white');
+        icon.className = 'fas fa-sun';
+        isDarkTheme = false;
+    } else {
+        // Switch to dark theme
+        body.removeAttribute('data-theme');
+        icon.className = 'fas fa-moon';
+        isDarkTheme = true;
+    }
+    
+    // Remove transition class after animation
+    setTimeout(() => {
+        body.classList.remove('theme-transitioning');
+        // Reset any forced styles but keep background stable
+        backgroundElements.forEach(element => {
+            if (element) {
+                element.style.transform = 'scale(1)';
+                element.style.transition = 'opacity 0.6s ease';
+                element.style.animation = '';
+                element.style.willChange = '';
+            }
+        });
+    }, 800);
+});
+
+
+
+// Arka planı tüm animasyonlardan koruma fonksiyonu
+function protectBackgroundFromAnimations() {
+    const backgroundElements = [
+        document.querySelector('.background-container'),
+        document.getElementById('bgImage'),
+        document.querySelector('.background-overlay'),
+        document.getElementById('bgVideo')
+    ];
+    
+    backgroundElements.forEach(element => {
+        if (element) {
+            element.style.transform = 'scale(1) translateZ(0)';
+            element.style.animation = 'none';
+            element.style.transition = 'opacity 0.6s ease';
+            element.style.willChange = 'opacity';
+            element.style.backfaceVisibility = 'hidden';
+            element.style.perspective = '1000px';
+        }
+    });
+}
 
 // Initialize background and music
 document.addEventListener('DOMContentLoaded', function() {
+    // Arka planı koruma
+    protectBackgroundFromAnimations();
+    
+    // Test notification on page load (removed for production)
+    // setTimeout(() => {
+    //     showNotification('Site yüklendi! Discord alanını test edebilirsiniz.', 'info', 'fas fa-info-circle');
+    // }, 2000);
+    
     // Check if video exists and load it
     bgVideo.addEventListener('loadeddata', function() {
         console.log('Video yüklendi');
         bgVideo.style.display = 'block';
         bgImage.style.display = 'none';
+        protectBackgroundFromAnimations();
     });
     
     bgVideo.addEventListener('error', function() {
         console.log('Video yüklenemedi, resim gösteriliyor...');
         bgVideo.style.display = 'none';
         bgImage.style.display = 'block';
+        protectBackgroundFromAnimations();
     });
     
     // Try to load video first, if it fails, image will be shown
@@ -150,65 +299,197 @@ document.addEventListener('DOMContentLoaded', function() {
         musicToggleBtn.classList.add('muted');
         musicToggleBtn.querySelector('i').className = 'fas fa-volume-mute';
     });
+    
+    // Periyodik olarak arka planı koru
+    setInterval(protectBackgroundFromAnimations, 1000);
+    
+    // Tüm animasyon event'lerinde arka planı koru
+    document.addEventListener('animationstart', protectBackgroundFromAnimations);
+    document.addEventListener('animationend', protectBackgroundFromAnimations);
+    document.addEventListener('transitionstart', protectBackgroundFromAnimations);
+    document.addEventListener('transitionend', protectBackgroundFromAnimations);
 });
 
-// Notification System
-function showNotification(message, type) {
+// Beautiful Glass Notification System
+function showNotification(message, type, icon = null) {
     // Remove existing notifications
-    const existingNotification = document.querySelector('.notification');
+    const existingNotification = document.querySelector('.glass-notification');
     if (existingNotification) {
         existingNotification.remove();
     }
     
     // Create notification element
     const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
+    notification.className = 'glass-notification';
+    
+    // Get theme colors
+    const isDark = !document.body.hasAttribute('data-theme') || document.body.getAttribute('data-theme') !== 'white';
+    const bgColor = isDark ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.9)';
+    const textColor = isDark ? '#ffffff' : '#1a1a1a';
+    const borderColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+    
+    // Type-specific styling
+    let typeColor = '#7289da';
+    let typeIcon = 'fas fa-info-circle';
+    
+    if (type === 'success') {
+        typeColor = '#4ecdc4';
+        typeIcon = 'fas fa-check-circle';
+    } else if (type === 'error') {
+        typeColor = '#ff6b6b';
+        typeIcon = 'fas fa-exclamation-circle';
+    } else if (type === 'info') {
+        typeColor = '#45b7d1';
+        typeIcon = 'fas fa-info-circle';
+    }
+    
+    if (icon) {
+        typeIcon = icon;
+    }
+    
     notification.innerHTML = `
-        <div class="notification-content">
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
+        <div class="glass-notification-content">
+            <div class="notification-icon" style="background: linear-gradient(135deg, ${typeColor}, ${typeColor}dd);">
+                <i class="${typeIcon}"></i>
+            </div>
+            <div class="notification-text">
+                <span class="notification-message">${message}</span>
+            </div>
+            <button class="notification-close">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     `;
     
-    // Add styles
+    // Add beautiful glass styles
     notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#4ecdc4' : '#ff6b6b'};
-        color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        z-index: 10000;
-        animation: slideIn 0.3s ease;
-        max-width: 300px;
+        position: fixed !important;
+        top: 30px !important;
+        right: 30px !important;
+        background: ${bgColor} !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid ${borderColor} !important;
+        border-radius: 20px !important;
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.1),
+            0 0 0 1px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+        z-index: 999999 !important;
+        animation: glassSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        max-width: 400px !important;
+        min-width: 300px !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
     `;
+    
+    // Add glass effect overlay
+    const glassOverlay = document.createElement('div');
+    glassOverlay.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        border-radius: 20px;
+        pointer-events: none;
+    `;
+    notification.appendChild(glassOverlay);
     
     // Add animation styles
     const style = document.createElement('style');
     style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        @keyframes glassSlideIn {
+            0% { 
+                transform: translateX(100%) scale(0.8); 
+                opacity: 0; 
+            }
+            50% { 
+                transform: translateX(-10px) scale(1.05); 
+                opacity: 0.8; 
+            }
+            100% { 
+                transform: translateX(0) scale(1); 
+                opacity: 1; 
+            }
         }
-        .notification-content {
+        
+        @keyframes glassSlideOut {
+            0% { 
+                transform: translateX(0) scale(1); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(100%) scale(0.8); 
+                opacity: 0; 
+            }
+        }
+        
+        .glass-notification-content {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             gap: 1rem;
+            padding: 1.2rem 1.5rem;
+            position: relative;
+            z-index: 2;
         }
-        .notification-close {
-            background: none;
-            border: none;
+        
+        .notification-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .notification-icon i {
             color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
+            font-size: 1.2rem;
         }
+        
+        .notification-text {
+            flex: 1;
+        }
+        
+        .notification-message {
+            color: ${textColor};
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.4;
+            ${isDark ? 'text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);' : ''}
+        }
+        
+        .notification-close {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: ${textColor};
+        }
+        
         .notification-close:hover {
-            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .notification-close i {
+            font-size: 0.9rem;
         }
     `;
     document.head.appendChild(style);
@@ -219,15 +500,25 @@ function showNotification(message, type) {
     // Close button functionality
     const closeBtn = notification.querySelector('.notification-close');
     closeBtn.addEventListener('click', () => {
-        notification.remove();
+        notification.style.animation = 'glassSlideOut 0.3s ease forwards';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 300);
     });
     
-    // Auto remove after 5 seconds
+    // Auto remove after 6 seconds
     setTimeout(() => {
         if (notification.parentNode) {
-            notification.remove();
+            notification.style.animation = 'glassSlideOut 0.3s ease forwards';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
         }
-    }, 5000);
+    }, 6000);
 }
 
 // Smooth scrolling for anchor links
@@ -257,6 +548,111 @@ document.querySelectorAll('.social-link').forEach(link => {
     });
 });
 
+// Discord Profile and Server Links
+document.addEventListener('DOMContentLoaded', function() {
+    const discordProfile = document.getElementById('discordProfile');
+    const discordServer = document.getElementById('discordServer');
+    
+    // Discord Profile click handler
+    if (discordProfile) {
+        discordProfile.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Add click animation
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            // Copy to clipboard with beautiful notification
+            navigator.clipboard.writeText('whoissarda').then(() => {
+                showNotification('Discord kullanıcı adı panoya kopyalandı!', 'success', 'fas fa-copy');
+            }).catch(() => {
+                showNotification('Discord kullanıcı adı: whoissarda', 'info', 'fab fa-discord');
+            });
+        });
+    }
+    
+});
+
+// Projects Section Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const projectsToggle = document.getElementById('projectsToggle');
+    const projectsContent = document.getElementById('projectsContent');
+    const projectsArrow = projectsToggle?.querySelector('.projects-arrow i');
+    
+    if (projectsToggle && projectsContent) {
+        let isOpen = false;
+        
+        projectsToggle.addEventListener('click', function() {
+            // Toggle animation
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            if (isOpen) {
+                // Close projects
+                projectsContent.classList.remove('active');
+                projectsArrow.style.transform = 'rotate(0deg)';
+                isOpen = false;
+            } else {
+                // Open projects
+                projectsContent.classList.add('active');
+                projectsArrow.style.transform = 'rotate(180deg)';
+                isOpen = true;
+            }
+        });
+        
+    }
+});
+
+// Contact Handlers
+document.addEventListener('DOMContentLoaded', function() {
+    const contactEmail = document.getElementById('contactEmail');
+    const contactDiscord = document.getElementById('contactDiscord');
+    
+    // Email handler
+    if (contactEmail) {
+        contactEmail.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Add click animation
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            // Copy to clipboard with beautiful notification
+            navigator.clipboard.writeText('ourlex@email.com').then(() => {
+                showNotification('Email adresi panoya kopyalandı!', 'success', 'fas fa-copy');
+            }).catch(() => {
+                showNotification('Email adresi: ourlex@email.com', 'info', 'fas fa-envelope');
+            });
+        });
+    }
+    
+    // Discord handler
+    if (contactDiscord) {
+        contactDiscord.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Add click animation
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            // Copy to clipboard with beautiful notification
+            navigator.clipboard.writeText('whoissarda').then(() => {
+                showNotification('Discord kullanıcı adı panoya kopyalandı!', 'success', 'fas fa-copy');
+            }).catch(() => {
+                showNotification('Discord kullanıcı adı: whoissarda', 'info', 'fab fa-discord');
+            });
+        });
+    }
+});
+
 // Add subtle parallax effect
 window.addEventListener('scroll', function() {
     const scrolled = window.pageYOffset;
@@ -266,35 +662,15 @@ window.addEventListener('scroll', function() {
         const rate = scrolled * -0.1;
         profileSection.style.transform = `translateY(${rate}px)`;
     }
+    
+    // Arka planı scroll animasyonundan koru
+    protectBackgroundFromAnimations();
 });
 
 
 
-// Add typing effect for the name (optional)
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
-}
-
-// Initialize typing effect when page loads
+// Initialize page load animations
 window.addEventListener('load', function() {
-    const nameElement = document.querySelector('.name');
-    if (nameElement) {
-        const originalText = nameElement.textContent;
-        setTimeout(() => {
-            typeWriter(nameElement, originalText, 120);
-        }, 500);
-    }
     
     // Add loading animation for all sections
     const sections = document.querySelectorAll('.about-section, .contact-section');
@@ -352,85 +728,3 @@ document.querySelectorAll('.about-section, .contact-section').forEach(section =>
 
 
 
-// Add info notification type
-function showNotification(message, type) {
-    // Remove existing notifications
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
-        </div>
-    `;
-    
-    // Add styles
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#4ecdc4' : '#ff6b6b'};
-        color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        z-index: 10000;
-        animation: slideIn 0.3s ease;
-        max-width: 300px;
-    `;
-    
-    // Add animation styles
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .notification-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-        }
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-        }
-        .notification-close:hover {
-            opacity: 0.8;
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Add to page
-    document.body.appendChild(notification);
-    
-    // Close button functionality
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        notification.remove();
-    });
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 5000);
-    
-    // Update background color for info type
-    if (type === 'info') {
-        notification.style.background = '#45b7d1';
-    }
-}

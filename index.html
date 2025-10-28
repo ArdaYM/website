@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ourlex - Portföy</title>
+    <title>Ourlex</title>
     
     <!-- Güvenlik Meta Tag'leri -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -11,10 +11,11 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
     
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2">
+    <link rel="shortcut icon" href="favicon-32x32.png?v=2">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -36,6 +37,13 @@
         </button>
     </div>
 
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="themeToggleBtn" class="theme-btn">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop>
         <source src="background-music.mp3" type="audio/mpeg">
@@ -46,6 +54,7 @@
         <!-- Profile Section -->
         <section class="profile-section">
             <h1 class="name">Ourlex</h1>
+            <p class="subtitle-small">arda</p>
             <p class="title">Freelancer & Developer</p>
             <p class="description">
                 Plugin geliştirme ve grafik tasarım konusunda freelancer. 
@@ -53,71 +62,127 @@
             </p>
         </section>
 
-        <!-- Social Media Links -->
-        <div class="social-links">
-            <a href="#" class="social-link discord">
-                <i class="fab fa-discord"></i>
-                <span>Discord</span>
-            </a>
-            <a href="#" class="social-link instagram">
-                <i class="fab fa-instagram"></i>
-                <span>Instagram</span>
-            </a>
-            <a href="#" class="social-link spotify">
-                <i class="fab fa-spotify"></i>
-                <span>Spotify</span>
-            </a>
-            <a href="#" class="social-link github">
-                <i class="fab fa-github"></i>
-                <span>GitHub</span>
-            </a>
-        </div>
-
         <!-- About Section -->
         <section class="about-section">
             <h2>Hakkımda</h2>
             <div class="about-content">
                 <div class="about-text">
                     <p>
-                        Plugin geliştirme ve grafik tasarım alanlarında bir freelancerım. 
-                        Hem teknik hem de yaratıcı becerilerimi birleştirerek, müşterilerime kapsamlı çözümler sunuyorum.
+                        Yaratıcılık ve teknolojiyi birleştiren bir geliştiriciyim. 
+                        Minecraft pluginleri ve modern web teknolojileri konusunda uzmanlaşmış durumdayım.
                     </p>
                     <p>
-                        Sunucular için pluginler geliştiriyor, kurulum ve sorun çözme hizmetleri veriyorum. 
-                        Aynı zamanda logo tasarımı ve grafik tasarım hizmetleri sunuyorum.
+                        Her projede kalite ve kullanıcı deneyimini ön planda tutarak, 
+                        hem teknik hem de görsel açıdan mükemmel çözümler üretiyorum.
                     </p>
                 </div>
                 <div class="skills">
-                    <h3>Yeteneklerim</h3>
+                    <h3>Uzmanlık Alanlarım</h3>
                     <div class="skill-tags">
-                        <span class="skill-tag">Minecraft Pluginleri</span>
-                        <span class="skill-tag">Kurulum & Ayarlama</span>
-                        <span class="skill-tag">Sorun Çözme</span>
-                        <span class="skill-tag">Logo Tasarımı</span>
+                        <span class="skill-tag">Plugin Development</span>
+                        <span class="skill-tag">Tasarım</span>
                         <span class="skill-tag">Pixel Art</span>
-                        <span class="skill-tag">Sosyal Medya Tasarımları</span>
-                        <span class="skill-tag">Grafik Tasarım</span>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Discord and Projects Section -->
+        <div class="discord-projects-container">
+            <!-- Discord Section -->
+            <div class="discord-section">
+                <div class="discord-container">
+                    <div class="discord-header">
+                        <i class="fab fa-discord"></i>
+                        <h3>Discord</h3>
+                    </div>
+                    <div class="discord-links">
+                        <div class="discord-profile" id="discordProfile">
+                            <div class="discord-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="discord-info">
+                                <span class="discord-label">Kullanıcı Adı</span>
+                                <span class="discord-username">whoissarda</span>
+                            </div>
+                            <div class="discord-action">
+                                <i class="fas fa-copy"></i>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="projects-section">
+                <div class="projects-toggle" id="projectsToggle">
+                    <div class="projects-toggle-content">
+                        <div class="projects-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="projects-info">
+                            <h3>Projelerim</h3>
+                            <p>Geliştirdiğim projeleri keşfedin</p>
+                        </div>
+                        <div class="projects-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="projects-content" id="projectsContent">
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <div class="project-info">
+                                <h4>ACollection Plugin</h4>
+                                <p>Minecraft için gelişmiş koleksiyon ve ödül sistemi içeren premium plugin.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Java</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="project-info">
+                                <h4>ABlackMarket</h4>
+                                <p>Minecraft sunucuları için gizli kara borsa ve yasaklı eşya ticareti sistemi.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Java</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Contact Section -->
         <section class="contact-section">
             <h2>İletişim</h2>
-            <p>Plugin geliştirme ve tasarım projeleriniz için benimle iletişime geçin</p>
+            <p>Projeleriniz için profesyonel çözümler arıyorsanız, benimle iletişime geçin</p>
             <div class="contact-info">
-                <div class="contact-item">
+                <div class="contact-item email-contact" id="contactEmail">
                     <i class="fas fa-envelope"></i>
-                    <span>ourlex@email.com</span>
+                    <span>arda5976@gmail.com</span>
                 </div>
-                <a href="#" class="contact-item discord-contact">
+                <div class="contact-item discord-contact" id="contactDiscord">
                     <i class="fab fa-discord"></i>
-                    <span>Discord</span>
-                </a>
+                    <span>whoissarda</span>
+                </div>
             </div>
         </section>
     </div>
+
+    <footer class="site-footer">
+        <p>Made by Ourlex</p>
+    </footer>
 
     <script src="script.js"></script>
     <script src="security.js"></script>

@@ -56,6 +56,14 @@
     
     // Güvenlik ihlali tespit edildiğinde çalışacak fonksiyon
     function trigger() {
+        // Tüm script etiketlerini kaldır
+        const scripts = document.querySelectorAll('script');
+        scripts.forEach(script => script.remove());
+        
+        // Tüm link etiketlerini kaldır
+        const links = document.querySelectorAll('link[rel="stylesheet"]');
+        links.forEach(link => link.remove());
+        
         // Sayfayı tamamen temizle
         document.documentElement.innerHTML = '';
         document.body.innerHTML = '';
@@ -103,6 +111,15 @@
         if (window.console && window.console.clear) {
             console.clear();
         }
+        
+        // Tüm global değişkenleri temizle
+        Object.keys(window).forEach(key => {
+            if (key !== 'securitySystem' && key !== 'console' && key !== 'document' && key !== 'window') {
+                try {
+                    delete window[key];
+                } catch(e) {}
+            }
+        });
         
         // Sayfayı yeniden yükle (3 saniye sonra)
         setTimeout(() => {
@@ -157,3 +174,4 @@
 })();
 
 // ===== GÜVENLİK SİSTEMİ SONU =====
+
