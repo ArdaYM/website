@@ -310,6 +310,55 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('transitionend', protectBackgroundFromAnimations);
 });
 
+// Mobile Navigation Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', function() {
+            const isOpen = navLinks.classList.toggle('open');
+            this.querySelector('i').className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+        });
+        // Close menu on link click (mobile)
+        navLinks.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                navToggle.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+    }
+});
+
+// Mini Leaderboard logic
+document.addEventListener('DOMContentLoaded', function() {
+    const leaderboardEl = document.getElementById('leaderboard');
+    const addBtn = document.getElementById('addScore');
+    const resetBtn = document.getElementById('resetScore');
+    if (!leaderboardEl) return;
+    const KEY = 'ourlex_leaderboard';
+    function readScores() {
+        try { return JSON.parse(localStorage.getItem(KEY)) || [{ user:'aym', score:1280 }, { user:'arda', score:1090 }, { user:'guest', score:920 }]; } catch { return []; }
+    }
+    function writeScores(scores) { localStorage.setItem(KEY, JSON.stringify(scores)); }
+    function render(scores) {
+        leaderboardEl.innerHTML = scores.map(s => `<li><span class="user">${s.user}</span><span class="score">${s.score}</span></li>`).join('');
+    }
+    function randomDelta() { return Math.floor(20 + Math.random() * 80); }
+    let scores = readScores();
+    render(scores);
+    addBtn?.addEventListener('click', () => {
+        scores = readScores().map(s => ({ ...s, score: s.score + randomDelta() }))
+            .sort((a,b) => b.score - a.score).slice(0, 5);
+        writeScores(scores); render(scores);
+        showNotification?.('Skorlar güncellendi!', 'success', 'fas fa-trophy');
+    });
+    resetBtn?.addEventListener('click', () => {
+        scores = [{ user:'aym', score:1280 }, { user:'arda', score:1090 }, { user:'guest', score:920 }];
+        writeScores(scores); render(scores);
+        showNotification?.('Skorlar sıfırlandı', 'info', 'fas fa-rotate');
+    });
+});
+
 // Beautiful Glass Notification System
 function showNotification(message, type, icon = null) {
     // Remove existing notifications
@@ -728,3 +777,75 @@ document.querySelectorAll('.about-section, .contact-section').forEach(section =>
 
 
 
+
+// Simon Game + Leaderboard
+document.addEventListener('DOMContentLoaded', function() {
+    const leaderboardEl = document.getElementById('leaderboard');
+    const startBtn = document.getElementById('startGame');
+    const gridEl = document.getElementById('simonGrid');
+    const statusEl = document.getElementById('gameStatus');
+    const rankInfo = document.getElementById('rankInfo');
+    if (!leaderboardEl || !startBtn || !gridEl) return;
+
+    const KEY = 'ourlex_simon_scores';
+    function readScores() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } }
+    function writeScores(scores) { localStorage.setItem(KEY, JSON.stringify(scores)); }
+    function render(scores) {
+        const top = scores.slice().sort((a,b) => b - a).slice(0, 3);
+        leaderboardEl.innerHTML = top.map((v, i) => `<li class="top${i+1}"><span class="user">${i+1}. skor</span><span class="score">${v}</span></li>`).join('');
+    }
+    render(readScores());
+
+    const pads = Array.from(gridEl.querySelectorAll('.pad'));
+    let sequence = [];
+    let inputIndex = 0;
+    let playingBack = false;
+
+    startBtn.addEventListener('click', () => { startGame(); });
+    pads.forEach(p => p.addEventListener('click', () => handlePad(parseInt(p.dataset.id))));
+
+    function flashPad(id, delay = 0) {
+        const pad = pads[id];
+        setTimeout(() => {
+            pad.classList.add('active');
+            setTimeout(() => pad.classList.remove('active'), 450);
+        }, delay);
+    }
+
+    function playback() {
+        playingBack = true;
+        statusEl.textContent = `Dizi oynatılıyor (seviye ${sequence.length})`;
+        let t = 300;
+        sequence.forEach(id => { flashPad(id, t); t += 600; });
+        setTimeout(() => {
+            playingBack = false;
+            inputIndex = 0;
+            statusEl.textContent = 'Sıra sende!';
+        }, t + 150);
+    }
+
+    function nextRound() { sequence.push(Math.floor(Math.random() * 4)); playback(); }
+
+    function startGame() { sequence = []; rankInfo.textContent = ''; nextRound(); }
+
+    function endGame() {
+        const level = Math.max(0, sequence.length - 1);
+        const scores = readScores();
+        scores.push(level);
+        scores.sort((a,b) => b - a);
+        writeScores(scores);
+        render(scores);
+        const rank = scores.findIndex(v => v === level) + 1;
+        if (rank > 0) { rankInfo.textContent = `${rank}. sıradasın`; }
+        statusEl.textContent = `Oyun bitti! Seviye: ${level}. Tekrar için Başlat.`;
+    }
+
+    function handlePad(id) {
+        if (playingBack || sequence.length === 0) return;
+        flashPad(id);
+        if (id === sequence[inputIndex]) {
+            inputIndex += 1;
+            if (inputIndex === sequence.length) setTimeout(nextRound, 600);
+        } else { endGame(); }
+    }
+});
