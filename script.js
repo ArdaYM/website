@@ -673,10 +673,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 150);
             
             // Copy to clipboard with beautiful notification
-            navigator.clipboard.writeText('ourlex@email.com').then(() => {
+            navigator.clipboard.writeText('arda5976@gmail.com').then(() => {
                 showNotification('Email adresi panoya kopyalandı!', 'success', 'fas fa-copy');
             }).catch(() => {
-                showNotification('Email adresi: ourlex@email.com', 'info', 'fas fa-envelope');
+                showNotification('Email adresi: arda5976@gmail.com', 'info', 'fas fa-envelope');
             });
         });
     }
