@@ -1,160 +1,261 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ourlex — Freelancer & Developer</title>
-    
+
+    <!-- Security Protection (Early Execution) -->
+    <script src="security.js"></script>
+
+    <!-- SEO & Meta -->
+    <meta name="description"
+        content="Ourlex - Minecraft pluginleri, sunucu yapılandırmaları ve modern web arayüzleri üzerine premium çözümler sunan freelancer developer.">
+    <meta name="keywords" content="minecraft plugin, developer, freelancer, web tasarım, java developer">
+    <meta name="author" content="Ourlex">
+
     <!-- Güvenlik Meta Tag'leri -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-    
+
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico?v=3">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=3">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=3">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=3">
-    <link rel="shortcut icon" href="favicon-32x32.png?v=3">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
-    <!-- Arka Plan -->
-    <div class="background-container" aria-hidden="true">
-        <video id="bgVideo" autoplay muted loop playsinline>
-            <source src="background-video.mp4" type="video/mp4">
-        </video>
-        <div id="bgImage" class="background-image"></div>
-        <div class="background-overlay"></div>
+    <!-- Animated Background -->
+    <div class="bg-wrapper">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="noise-overlay"></div>
+        <div class="grid-overlay"></div>
     </div>
 
-    <!-- Global Aksiyonlar -->
-    <div class="music-toggle">
-        <button id="musicToggleBtn" class="music-btn" aria-label="Arka plan müziğini aç/kapat">
-            <i class="fas fa-volume-up" aria-hidden="true"></i>
-        </button>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Cursor Glow Effect -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <nav class="navbar-container">
+            <a href="#hero" class="logo">
+                <span class="logo-text">Ourlex</span>
+                <span class="logo-dot"></span>
+            </a>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat">
+                <span class="hamburger"></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#hero" class="nav-link active">Ana Sayfa</a></li>
+                <li><a href="#about" class="nav-link">Hakkımda</a></li>
+                <li><a href="#projects" class="nav-link">Projeler</a></li>
+                <li><a href="#contact" class="nav-link">İletişim</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-toggle" aria-label="Tema değiştir">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="musicToggle" class="music-toggle" aria-label="Müzik aç/kapat">
+                    <i class="fas fa-volume-xmark"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>Freelancer & Developer</span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="title-line">Merhaba, ben</span>
+                <span class="title-name">
+                    <span class="typing-text" id="typingText">Ourlex</span>
+                    <span class="title-cursor">|</span>
+                </span>
+            </h1>
+
+            <p class="hero-description">
+                Minecraft pluginleri, sunucu yapılandırmaları ve modern web arayüzleri üzerine
+                <span class="highlight">hızlı</span>, <span class="highlight">güvenli</span> ve
+                <span class="highlight">estetik</span> çözümler üretiyorum.
+            </p>
+
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">
+                    <span>Projelerim</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="50">0</span>
+                    <span class="stat-label">Proje</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="100">0</span>
+                    <span class="stat-label">Mutlu Müşteri</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="3">0</span>
+                    <span class="stat-label">Yıl Deneyim</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="visual-container">
+                <canvas id="interactiveCanvas"></canvas>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Hakkımda</span>
+                <h2 class="section-title">Kim Bu Adam?</h2>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-content">
+                    <p class="about-text">
+                        Yaratıcılığı teknolojiyle birleştiren bir geliştiriciyim. <strong>Minecraft pluginleri</strong>
+                        ve <strong>modern web teknolojileri</strong> konusunda deneyimliyim.
+                    </p>
+                    <p class="about-text">
+                        Her projede <em>performans</em>, <em>güvenlik</em> ve <em>kullanıcı deneyimini</em>
+                        merkezde tutarım. Temiz kod yazmak, optimize edilmiş çözümler üretmek benim için
+                        sadece bir hedef değil, bir yaşam tarzı.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Projeler</span>
+                <h2 class="section-title">Öne Çıkan <span class="gradient-text">Çalışmalarım</span></h2>
+                <p class="section-subtitle">Geliştirdiğim premium projeler ve çözümler</p>
+            </div>
+
+            <!-- Dynamic Project Grid -->
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be loaded dynamically via JS -->
+                <div class="loading-projects"
+                    style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-tertiary);">
+                    <i class="fas fa-spinner fa-spin"></i> Projeler yükleniyor...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">İletişim</span>
+                <h2 class="section-title">Birlikte Çalışalım</h2>
+                <p class="section-subtitle">Projeleriniz için profesyonel çözümler arıyorsanız iletişime geçin</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-card" id="emailCard">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-label">Email</span>
+                            <span class="contact-value">arda5976@gmail.com</span>
+                        </div>
+                        <button class="copy-btn" data-copy="arda5976@gmail.com">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <div class="contact-card" id="discordCard">
+                        <div class="contact-icon discord">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-label">Discord</span>
+                            <span class="contact-value">whoissarda</span>
+                        </div>
+                        <button class="copy-btn" data-copy="whoissarda">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-text">Ourlex</span>
+                    <p>Premium çözümler, olağanüstü sonuçlar.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#hero">Ana Sayfa</a>
+                    <a href="#about">Hakkımda</a>
+                    <a href="#projects">Projeler</a>
+                    <a href="#contact">İletişim</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Ourlex. Tüm hakları saklıdır.</p>
+                <p class="made-with">Made with <i class="fas fa-heart"></i> by Ourlex</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span class="toast-message">Kopyalandı!</span>
     </div>
-    <div class="theme-toggle">
-        <button id="themeToggleBtn" class="theme-btn" aria-label="Tema değiştir">
-            <i class="fas fa-moon" aria-hidden="true"></i>
-        </button>
-    </div>
+
+    <!-- Audio -->
     <audio id="backgroundMusic" loop>
         <source src="background-music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Üst Navigasyon -->
-    <header class="site-header">
-        <nav class="nav" aria-label="Ana Navigasyon">
-            <a href="#hero" class="brand">Ourlex</a>
-            <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#hakkimda">Hakkımda</a></li>
-                <li><a href="#projeler">Projeler</a></li>
-                <li><a href="#iletisim">İletişim</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero -->
-    <main class="container">
-        <section id="hero" class="hero">
-            <div class="hero-content">
-                <h1 class="name">Ourlex</h1>
-                <p class="subtitle-small"><span class="mono">arda</span> — freelancer & developer</p>
-                <p class="description">Minecraft pluginleri, sunucu yapılandırmaları ve modern web arayüzleri üzerine; hızlı, güvenli ve estetik çözümler üretiyorum.</p>
-                <div class="hero-cta">
-                    <a href="#projeler" class="btn btn-primary"><i class="fas fa-code"></i> Projeler</a>
-                    <a href="#iletisim" class="btn btn-ghost"><i class="fas fa-envelope"></i> İletişim</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Hakkımda -->
-        <section id="hakkimda" class="about-section section">
-            <h2 class="section-title">Hakkımda</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Yaratıcılığı teknolojiyle birleştiren bir geliştiriciyim. Minecraft pluginleri ve modern web teknolojileri konusunda deneyimliyim. Her projede performans, güvenlik ve kullanıcı deneyimini merkezde tutarım.</p>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">Spigot/Paper</span>
-                        <span class="skill-tag">Minecraft Tasarım (Menü,ESC...)</span>
-                        <span class="skill-tag">Site Tasarımı</span>
-                    </div>
-                </div>
-                <aside class="highlight-card" role="note">
-                    <div class="highlight-icon"><i class="fas fa-bolt"></i></div>
-                    <div class="highlight-text">
-                        <h3>Odak Noktalarım</h3>
-                        <ul>
-                            <li>Optimize edilmiş performans</li>
-                            <li>Temiz ve sürdürülebilir kod</li>
-                            <li>Modern ve erişilebilir tasarım</li>
-                        </ul>
-                    </div>
-                </aside>
-            </div>
-        </section>
-
-        <!-- Projeler -->
-        <section id="projeler" class="projects-section section">
-            <div class="section-head">
-                <h2 class="section-title">Projeler</h2>
-                <p class="section-sub">Geliştirdiğim öne çıkan işler</p>
-            </div>
-            <div class="projects-grid">
-                <article class="project-card">
-                    <div class="project-image"><i class="fas fa-cube"></i></div>
-                    <div class="project-info">
-                        <h3>ACollection Plugin</h3>
-                        <p>Minecraft için gelişmiş koleksiyon ve ödül sistemi içeren premium plugin.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">Paper</span>
-                        </div>
-                    </div>
-                </article>
-                <article class="project-card">
-                    <div class="project-image"><i class="fas fa-store"></i></div>
-                    <div class="project-info">
-                        <h3>ABlackMarket</h3>
-                        <p>Minecraft sunucuları için gelişmiş kara borsa ve yasaklı eşya sistemi.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">Spigot</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- İletişim -->
-        <section id="iletisim" class="contact-section section">
-            <h2 class="section-title">İletişim</h2>
-            <p class="section-sub">Projeleriniz için profesyonel çözümler arıyorsanız iletişime geçin</p>
-            <div class="contact-info">
-                <a class="contact-item email-contact" id="contactEmail" href="#" aria-label="E-posta kopyala">
-                    <i class="fas fa-envelope"></i>
-                    <span>arda5976@gmail.com</span>
-                </a>
-                <a class="contact-item discord-contact" id="contactDiscord" href="#" aria-label="Discord kullanıcı adı kopyala">
-                    <i class="fab fa-discord"></i>
-                    <span>whoissarda</span>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <p>Made by Ourlex</p>
-    </footer>
-
     <script src="script.js"></script>
-    <script src="security.js"></script>
 </body>
+
 </html>
