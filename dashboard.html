@@ -698,7 +698,7 @@
                         id: 2,
                         title: "ABlackMarket",
                         category: "Minecraft Plugin",
-                        img: "projeresim/karaborsa.jpeg",
+                        img: "karaborsa.jpeg",
                         desc: "Minecraft sunucuları için gelişmiş kara borsa ve yasaklı eşya sistemi.",
                         tags: ["Java", "Spigot", "Vault"]
                     },
@@ -716,7 +716,7 @@
                 // Force update for ABlackMarket image if it's still using the old/wrong path
                 projects = projects.map(p => {
                     if (p.id === 2 || p.title === "ABlackMarket") {
-                        return { ...p, img: "projeresim/karaborsa.jpeg" };
+                        return { ...p, img: "karaborsa.jpeg" };
                     }
                     return p;
                 });
@@ -945,6 +945,7 @@
 
 
 </html>
+
 
 
 
