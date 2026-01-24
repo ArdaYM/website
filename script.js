@@ -260,6 +260,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 { id: 2, title: "ABlackMarket", category: "Minecraft Plugin", desc: "Minecraft sunucuları için kara borsa sistemi.", tags: ["Java", "Spigot"], img: "projeresim/karaborsa.jpeg", size: "small" }
             ];
             localStorage.setItem('projects', JSON.stringify(projs));
+        } else {
+            // Force update for ABlackMarket image if it's still using the old path or missing
+            projs = projs.map(p => {
+                if (p.id === 2 || p.title === "ABlackMarket") {
+                    return { ...p, img: "projeresim/karaborsa.jpeg" };
+                }
+                return p;
+            });
+            localStorage.setItem('projects', JSON.stringify(projs));
         }
 
         grid.innerHTML = '';
