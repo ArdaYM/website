@@ -715,8 +715,11 @@
             } else {
                 // Force update for ABlackMarket image if it's still using the old/wrong path
                 projects = projects.map(p => {
+                    if (p.id === 1 || p.title === "ACollection Plugin") {
+                        return { ...p, img: "koleksiyon.jpeg" };
+                    }
                     if (p.id === 2 || p.title === "ABlackMarket") {
-                        return { ...p, img: "karaborsa.jpeg" };
+                        return { ...p, img: "projeresim/karaborsa.jpeg" };
                     }
                     return p;
                 });
@@ -945,6 +948,7 @@
 
 
 </html>
+
 
 
 
