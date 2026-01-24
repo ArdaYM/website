@@ -249,27 +249,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // === PROJECT LOADER ===
-    function loadProjects() {
-        const grid = document.getElementById('projectsGrid');
-        if (!grid) return;
+function loadProjects() {
+    const grid = document.getElementById('projectsGrid');
+    if (!grid) return;
 
-        let projs = JSON.parse(localStorage.getItem('projects'));
-        if (!projs || projs.length === 0) {
-            projs = [
-                { id: 1, title: "ACollection Plugin", category: "Minecraft Plugin", desc: "Minecraft için gelişmiş koleksiyon ve ödül sistemi.", tags: ["Java", "Paper API"], img: "assets/img/plugin1.jpg", size: "medium" },
-                { id: 2, title: "ABlackMarket", category: "Minecraft Plugin", desc: "Minecraft sunucuları için kara borsa sistemi.", tags: ["Java", "Spigot"], img: "projeresim/karaborsa.jpeg", size: "small" }
-            ];
-            localStorage.setItem('projects', JSON.stringify(projs));
-        } else {
-            // Force update for ABlackMarket image if it's still using the old path or missing
-            projs = projs.map(p => {
-                if (p.id === 2 || p.title === "ABlackMarket") {
-                    return { ...p, img: "projeresim/karaborsa.jpeg" };
-                }
-                return p;
-            });
-            localStorage.setItem('projects', JSON.stringify(projs));
-        }
+    let projs = JSON.parse(localStorage.getItem('projects') || '[]');
+
+    // Eğer hiç yoksa, bozuksa veya boşsa → seed et
+    if (!Array.isArray(projs) || projs.length === 0) {
+        projs = [
+            {
+                id: 1,
+                title: "ACollection Plugin",
+                category: "Minecraft Plugin",
+                img: "koleksiyon.jpeg",
+                desc: "Minecraft için gelişmiş koleksiyon ve ödül sistemi içeren premium plugin.",
+                tags: ["Java", "Paper API", "MySQL"],
+                size: "medium"
+            },
+            {
+                id: 2,
+                title: "ABlackMarket",
+                category: "Minecraft Plugin",
+                img: "karaborsa.jpeg",
+                desc: "Minecraft sunucuları için gelişmiş kara borsa ve yasaklı eşya sistemi.",
+                tags: ["Java", "Spigot", "Vault"],
+                size: "small"
+            }
+        ];
+        localStorage.setItem('projects', JSON.stringify(projs));
+    } else {
+        // ABlackMarket görseli garanti düzelsin
+        projs = projs.map(p => {
+            if (p.id === 2 || p.title === "ABlackMarket") {
+                return { ...p, img: "karaborsa.jpeg" };
+            }
+            return p;
+        });
+        localStorage.setItem('projects', JSON.stringify(projs));
+    }
+
+    grid.innerHTML = '';
+
+    if (projs.length === 0) {
+        grid.innerHTML = '<div style="opacity:.6;text-align:center;">Henüz proje yok.</div>';
+        return;
+    }
+
+    // burada kart basma kodun devam edecek ↓
+}
+
 
         grid.innerHTML = '';
         projs.forEach((p, i) => {
