@@ -712,6 +712,15 @@
                     }
                 ];
                 localStorage.setItem('projects', JSON.stringify(projects));
+            } else {
+                // Force update for ABlackMarket image if it's still using the old/wrong path
+                projects = projects.map(p => {
+                    if (p.id === 2 || p.title === "ABlackMarket") {
+                        return { ...p, img: "projeresim/karaborsa.jpeg" };
+                    }
+                    return p;
+                });
+                localStorage.setItem('projects', JSON.stringify(projects));
             }
 
             list.innerHTML = '';
@@ -936,6 +945,7 @@
 
 
 </html>
+
 
 
 
