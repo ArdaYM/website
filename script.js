@@ -267,23 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     return { ...p, img: "koleksiyon.jpeg" };
                 }
                 if (p.id === 2 || p.title === "ABlackMarket") {
-                    return { ...p, img: "karaborsa.jpeg" };
+                    return { ...p, img: "projeresim/karaborsa.jpeg" };
                 }
                 return p;
             });
             localStorage.setItem('projects', JSON.stringify(projs));
         }
-
-    grid.innerHTML = '';
-
-    if (projs.length === 0) {
-        grid.innerHTML = '<div style="opacity:.6;text-align:center;">Henüz proje yok.</div>';
-        return;
-    }
-
-    // burada kart basma kodun devam edecek ↓
-}
-
 
         grid.innerHTML = '';
         projs.forEach((p, i) => {
@@ -310,5 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollObserver.observe(art);
         });
     }
+
+
     loadProjects();
 });
