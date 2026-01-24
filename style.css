@@ -186,10 +186,8 @@ body {
 
 /* ===== TYPING EFFECT STYLES ===== */
 .typing-text {
-    background: var(--gradient-main);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
 }
 
 .title-cursor {
