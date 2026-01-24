@@ -256,8 +256,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let projs = JSON.parse(localStorage.getItem('projects'));
         if (!projs || projs.length === 0) {
             projs = [
-                { id: 1, title: "ACollection Plugin", category: "Minecraft Plugin", desc: "Minecraft için gelişmiş koleksiyon ve ödül sistemi.", tags: ["Java", "Paper API"], size: "medium" },
-                { id: 2, title: "ABlackMarket", category: "Minecraft Plugin", desc: "Minecraft sunucuları için kara borsa sistemi.", tags: ["Java", "Spigot"], size: "small" }
+                { id: 1, title: "ACollection Plugin", category: "Minecraft Plugin", desc: "Minecraft için gelişmiş koleksiyon ve ödül sistemi.", tags: ["Java", "Paper API"], img: "assets/img/plugin1.jpg", size: "medium" },
+                { id: 2, title: "ABlackMarket", category: "Minecraft Plugin", desc: "Minecraft sunucuları için kara borsa sistemi.", tags: ["Java", "Spigot"], img: "projeresim/karaborsa.jpeg", size: "small" }
             ];
             localStorage.setItem('projects', JSON.stringify(projs));
         }
@@ -267,9 +267,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const art = document.createElement('article');
             art.className = `project-card size-${p.size || 'medium'}`;
             art.style.animationDelay = `${i * 0.1}s`;
+
+            const imageContent = p.img
+                ? `<img src="${p.img}" alt="${p.title}" class="project-bg-image">`
+                : `<div class="project-icon"><i class="fas ${p.category?.toLowerCase().includes('web') ? 'fa-code' : 'fa-cube'}"></i></div>`;
+
             art.innerHTML = `
                 <div class="project-image">
-                    <div class="project-icon"><i class="fas ${p.category?.toLowerCase().includes('web') ? 'fa-code' : 'fa-cube'}"></i></div>
+                    ${imageContent}
                     <div class="project-overlay"><span class="project-category">${p.category}</span></div>
                 </div>
                 <div class="project-content">
